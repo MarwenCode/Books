@@ -42,6 +42,7 @@ app.use(cors())
         
 //     })
 // })
+//get all books 
 app.get("/books", (req, res) => {
     const query = "SELECT * FROM books";
     DataBase.query(query, (error, data) => {
@@ -84,6 +85,38 @@ app.post("/books", (req,res) => {
             return res.json("book created")
         }
     })
+})
+
+// delete a single book
+app.delete("/books/:id", (req, res) => {
+    const bookId = req.params.id;
+    const queri = "DELETE FROM books WHERE id = ?";
+
+    DataBase.query(queri, [bookId], (error, data) => {
+        if (error) {
+            res.json(error)
+        }else {
+            res.json("Book has been deleted ")
+        }
+    })
+})
+
+//updata a book
+app.put("/books/:id", (req, res) => {
+    const bookId = req.params.id;
+    const queri = "UPDATE books SET `title`= ?, `desc`= ?, `price`= ?, `cover`= ? WHERE id = ?";;
+
+    const values = [
+        req.body.title,
+        req.body.desc,
+        req.body.price,
+        req.body.cover,
+      ];
+
+      DataBase.query(queri, [...values,bookId], (err, data) => {
+        if (err) return res.send(err);
+        return res.json(data);
+      });
 })
 
 

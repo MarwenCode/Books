@@ -34,6 +34,22 @@ const Books = () => {
 
   console.log(books);
 
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete("http://localhost:5500/books/" + id)
+      window.location.reload()
+      
+    } catch (error) {
+      console.log(error)
+      
+    }
+  }
+
+
+
+
+
   return (
     <div>
       <h1>Book app MySQL</h1>
@@ -44,9 +60,9 @@ const Books = () => {
             <h2>{book.title}</h2>
             <p>{book.desc}</p>
             <span>${book.price}</span>
-            {/* <button className="delete" onClick={() => handleDelete(book.id)}>
+            <button className="delete" onClick={() => handleDelete(book.id)}   >
               Delete
-            </button> */}
+            </button>
             <button className="update">
               <Link
                 to={`/update/${book.id}`}
